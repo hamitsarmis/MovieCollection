@@ -45,7 +45,9 @@ namespace MovieCollectionAPI.Controllers
 
             return new LoginResponse
             {
-                Token = await _tokenService.CreateToken(user)
+                Token = await _tokenService.CreateToken(user),
+                UserName = user.UserName,
+                UserId = user.Id
             };
         }
 

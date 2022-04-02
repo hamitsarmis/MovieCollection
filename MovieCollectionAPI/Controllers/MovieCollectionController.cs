@@ -32,15 +32,23 @@ namespace MovieCollectionAPI.Controllers
         }
 
         [HttpPost("update-moviecollection")]
-        public async Task UpdateMovieCollection(MovieCollectionDto movieDto)
+        public async Task<ActionResult> UpdateMovieCollection(MovieCollectionDto movieDto)
         {
+            var data = await _movieCollectionService.GetMovieCollection(_mapper.Map<MovieCollection>(movieDto));
+            if (data?.UserId != User.GetUserId())
+                return Unauthorized();
             await _movieCollectionService.UpdateMovieCollection(_mapper.Map<MovieCollection>(movieDto));
+            return Ok();
         }
 
         [HttpPost("delete-moviecollection")]
-        public async Task DeleteMovieCollection(MovieCollectionDto movieDto)
+        public async Task<ActionResult> DeleteMovieCollection(MovieCollectionDto movieDto)
         {
+            var data = await _movieCollectionService.GetMovieCollection(_mapper.Map<MovieCollection>(movieDto));
+            if (data?.UserId != User.GetUserId())
+                return Unauthorized();
             await _movieCollectionService.DeleteMovieCollection(_mapper.Map<MovieCollection>(movieDto));
+            return Ok();
         }
 
         [HttpPost("get-moviecollection")]
@@ -51,16 +59,33 @@ namespace MovieCollectionAPI.Controllers
             return _mapper.Map<MovieCollectionDto>(result);
         }
 
-        [HttpPost("removefrom-moviecollection")]
-        public async Task RemoveFromMovieCollection([FromQuery] int movieCollectionID, [FromBody] MovieDto movieDto)
+        [HttpPost("get-collectionsofuser")]
+        [AllowAnonymous]
+        public async Task<List<MovieCollectionDto>> GetMovieCollectionsOfUser([FromQuery] int userid)
         {
-            await _movieCollectionService.RemoveFromMovieCollection(new MovieCollection { Id = movieCollectionID }, _mapper.Map<Movie>(movieDto));
+            var result = await _movieCollectionService.GetMovieCollectionsOfUser(userid);
+            return _mapper.Map<List<MovieCollectionDto>>(result);
+        }
+
+        [HttpPost("get-moviesofcollection")]
+        [AllowAnonymous]
+        public async Task<List<MovieDto>> GetMoviesOfCollection([FromQuery] int collectionId)
+        {
+            var result = await _movieCollectionService.GetMoviesOfCollection(collectionId);
+            return _mapper.Map<List<MovieDto>>(result);
+        }
+
+
+        [HttpPost("removefrom-moviecollection")]
+        public async Task RemoveFromMovieCollection([FromQuery] int collectionId, [FromBody] MovieDto movieDto)
+        {
+            await _movieCollectionService.RemoveFromMovieCollection(new MovieCollection { Id = collectionId }, _mapper.Map<Movie>(movieDto));
         }
 
         [HttpPost("addto-moviecollection")]
-        public async Task AddToMovieCollection([FromQuery] int movieCollectionID, [FromBody] MovieDto movieDto)
+        public async Task AddToMovieCollection([FromQuery] int collectionId, [FromBody] MovieDto movieDto)
         {
-            await _movieCollectionService.AddToMovieCollection(new MovieCollection { Id = movieCollectionID }, _mapper.Map<Movie>(movieDto));
+            await _movieCollectionService.AddToMovieCollection(new MovieCollection { Id = collectionId }, _mapper.Map<Movie>(movieDto));
         }
 
     }

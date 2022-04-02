@@ -50,5 +50,17 @@ namespace MovieCollectionAPI.Services
         {
             //await _dataContext.(movie);
         }
+
+        public async Task<List<MovieCollection>> GetMovieCollectionsOfUser(int userid)
+        {
+            return _dataContext.MovieCollections.Where(m => m.UserId == userid).ToList();
+        }
+
+        public async Task<List<Movie>> GetMoviesOfCollection(int collectionId)
+        {
+            var itemsToSelect = _dataContext.CollectionMovies.Where(m => m.MovieCollectionId == collectionId).
+                Select(m => m.MovieId).ToList();
+            return _dataContext.Movies.Where(m => itemsToSelect.Contains(m.Id)).ToList();
+        }
     }
 }

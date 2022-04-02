@@ -121,30 +121,34 @@ namespace MovieCollectionAPI.Data
         {
             if (await context.MovieCollections.AnyAsync()) return;
 
-            var movieCollection1 = new MovieCollection() { User = await context.Users.FindAsync(1), Name = "my favourite movies" };
-            await context.AddAsync(movieCollection1);
-            await context.SaveChangesAsync();
+            var movieCollections = new List<MovieCollection>();
+            movieCollections.Add(new MovieCollection { UserId = 1, Name = "my favourite movies" });
+            movieCollections.Add(new MovieCollection { UserId = 1, Name = "already watched movies" });
+            movieCollections.Add(new MovieCollection { UserId = 1, Name = "drama movies" });
+            movieCollections.Add(new MovieCollection { UserId = 1, Name = "superb movies" });
 
-            await context.CollectionMovies.AddAsync(new CollectionMovie { MovieCollection = movieCollection1, Movie = await context.Movies.FindAsync(1) });
-            await context.CollectionMovies.AddAsync(new CollectionMovie { MovieCollection = movieCollection1, Movie = await context.Movies.FindAsync(2) });
-            await context.SaveChangesAsync();
+            movieCollections.Add(new MovieCollection { UserId = 2, Name = "watched" });
+            movieCollections.Add(new MovieCollection { UserId = 2, Name = "to watch" });
+            movieCollections.Add(new MovieCollection { UserId = 2, Name = "dramas" });
 
-            var movieCollection2 = new MovieCollection() { User = await context.Users.FindAsync(2), Name = "will watch later" };
-            await context.AddAsync(movieCollection2);
-            await context.SaveChangesAsync();
+            movieCollections.Add(new MovieCollection { UserId = 3, Name = "will never watch" });
+            movieCollections.Add(new MovieCollection { UserId = 3, Name = "definitely watch" });
+            movieCollections.Add(new MovieCollection { UserId = 3, Name = "maybe watch" });
 
-            await context.CollectionMovies.AddAsync(new CollectionMovie { MovieCollection = movieCollection2, Movie = await context.Movies.FindAsync(1) });
-            await context.CollectionMovies.AddAsync(new CollectionMovie { MovieCollection = movieCollection2, Movie = await context.Movies.FindAsync(2) });
-            await context.CollectionMovies.AddAsync(new CollectionMovie { MovieCollection = movieCollection2, Movie = await context.Movies.FindAsync(3) });
-            await context.CollectionMovies.AddAsync(new CollectionMovie { MovieCollection = movieCollection2, Movie = await context.Movies.FindAsync(4) });
-            await context.SaveChangesAsync();
+            foreach (var item in movieCollections)
+            {
+                await context.AddAsync(item);
+                await context.SaveChangesAsync();
+            }
 
-            var movieCollection3 = new MovieCollection() { User = await context.Users.FindAsync(3), Name = "already watched" };
-            await context.AddAsync(movieCollection3);
-            await context.SaveChangesAsync();
+            foreach (var item in movieCollections)
+            {
+                await context.CollectionMovies.AddAsync(new CollectionMovie { MovieCollection = item, MovieId = 1 });
+                await context.CollectionMovies.AddAsync(new CollectionMovie { MovieCollection = item, MovieId = 2 });
+                await context.CollectionMovies.AddAsync(new CollectionMovie { MovieCollection = item, MovieId = 3 });
+                await context.CollectionMovies.AddAsync(new CollectionMovie { MovieCollection = item, MovieId = 4 });
+            }
 
-            await context.CollectionMovies.AddAsync(new CollectionMovie { MovieCollection = movieCollection3, Movie = await context.Movies.FindAsync(1) });
-            await context.CollectionMovies.AddAsync(new CollectionMovie { MovieCollection = movieCollection3, Movie = await context.Movies.FindAsync(2) });
             await context.SaveChangesAsync();
 
         }

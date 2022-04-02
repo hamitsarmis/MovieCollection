@@ -16,5 +16,9 @@ namespace MovieCollectionAPI.Interfaces
 
         Task AddToMovieCollection(MovieCollection movieCollection, Movie movie);
 
+        Task<List<MovieCollection>> GetMovieCollectionsOfUser(int userid);
+
+        Task<List<Movie>> GetMoviesOfCollection(int collectionId);
+
     }
 }
