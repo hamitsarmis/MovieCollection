@@ -29,5 +29,5 @@ When user authenticates, JWT token should be returned <br/>
 Every user should be able to see collections of other people, but to be able to change only their own collection.
 
 #### Additionally:
-Besides having an API endpoint, swagger UI provided with Security Requirement and Security Definition for people who don’t know how to use Postman.
+Besides having an API endpoint, swagger UI provided with Security Requirement and Security Definition for people who don’t know how to use Postman. <br/>
 Managing movies (Create Update Delete) operations are only allowed for admin role.
