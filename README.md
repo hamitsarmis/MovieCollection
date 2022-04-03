@@ -25,7 +25,6 @@ docker-compose up
 
 #### Unit tests can be found in MovieCollectionAPI.Tests project. Here are the rules that are tested:
 
-When user authenticates, JWT token should be returned <br/>
 Every user should be able to see collections of other people, but to be able to change only their own collection.
 
 #### Additionally:
