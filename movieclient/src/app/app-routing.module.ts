@@ -6,8 +6,7 @@ import {MovieListComponent} from "./movie-list/movie-list.component";
 import {LoginComponent} from "./login/login.component";
 
 const routes: Routes = [
-  { path: '', component: MovieListComponent, pathMatch: 'full' },
-  { path: 'usercollections', component: UserCollectionsComponent },
+  { path: '', component: UserCollectionsComponent, pathMatch: 'full' },
   { path: 'login', component: LoginComponent }
 ];
 
