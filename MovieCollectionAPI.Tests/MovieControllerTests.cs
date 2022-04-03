@@ -16,17 +16,13 @@ namespace MovieCollectionAPI.Tests
     {
         private MovieController getController(int authenticatedUserId)
         {
-            var myProfile = new AutoMapperProfile();
-            var configuration = new MapperConfiguration(cfg => cfg.AddProfile(myProfile));
-            IMapper mapper = new Mapper(configuration);
-
             var mockService = new Mock<IMovieService>();
             mockService.Setup(x => x.GetMovies()).
                 ReturnsAsync(new List<Movie>());
             mockService.Setup(x => x.CreateMovie(It.IsAny<Movie>())).
                 ReturnsAsync(new Movie() { Id = 1 });
 
-            return new MovieController(mockService.Object, mapper);
+            return new MovieController(mockService.Object, CreationalHelpers.GetMapper());
         }
 
         [Fact]

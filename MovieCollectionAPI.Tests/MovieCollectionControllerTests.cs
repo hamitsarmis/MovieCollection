@@ -19,33 +19,17 @@ namespace MovieCollectionAPI.Tests.MovieCollectionControllerTests
 
         private MovieCollectionController getController(int authenticatedUserId, int ownerUserId)
         {
-            var myProfile = new AutoMapperProfile();
-            var configuration = new MapperConfiguration(cfg => cfg.AddProfile(myProfile));
-            IMapper mapper = new Mapper(configuration);
-
             var mockService = new Mock<IMovieCollectionService>();
             mockService.Setup(x => x.CreateMovieCollection(It.IsAny<MovieCollection>())).
                 ReturnsAsync(new MovieCollection { Id = 1, UserId = ownerUserId });
             mockService.Setup(x => x.GetMoviesOfCollection(It.IsAny<int>())).
                 ReturnsAsync(new List<Movie>());
 
+            var controller = new MovieCollectionController(CreationalHelpers.GetMapper(), 
+                mockService.Object);
 
-            var controller = new MovieCollectionController(mapper, mockService.Object);
             if (authenticatedUserId != 0)
-            {
-                controller.ControllerContext = new Microsoft.AspNetCore.Mvc.ControllerContext()
-                {
-                    HttpContext = new Microsoft.AspNetCore.Http.DefaultHttpContext()
-                    {
-                        User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
-                    {
-                        new Claim(ClaimTypes.Name, "user1"),
-                        new Claim(ClaimTypes.NameIdentifier, authenticatedUserId.ToString()),
-                        new Claim("custom-claim", "example claim value"),
-                    }, "mock"))
-                    }
-                };
-            }
+                controller.ControllerContext = CreationalHelpers.GetControllerContext(authenticatedUserId);
 
             return controller;
         }
