@@ -27,15 +27,17 @@ namespace MovieCollectionAPI.Controllers
         }
 
         [HttpPost("update-movie")]
-        public async Task UpdateMovie(MovieDto movieDto)
+        public async Task<ActionResult> UpdateMovie(MovieDto movieDto)
         {
             await _movieService.UpdateMovie(_mapper.Map<Movie>(movieDto));
+            return Ok();
         }
 
         [HttpPost("delete-movie")]
-        public async Task DeleteMovie(MovieDto movieDto)
+        public async Task<ActionResult> DeleteMovie(MovieDto movieDto)
         {
             await _movieService.DeleteMovie(_mapper.Map<Movie>(movieDto));
+            return Ok();
         }
 
         [HttpPost("get-movies")]

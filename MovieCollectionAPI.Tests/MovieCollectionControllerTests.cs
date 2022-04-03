@@ -26,6 +26,8 @@ namespace MovieCollectionAPI.Tests.MovieCollectionControllerTests
             var mockService = new Mock<IMovieCollectionService>();
             mockService.Setup(x => x.CreateMovieCollection(It.IsAny<MovieCollection>())).
                 ReturnsAsync(new MovieCollection { Id = 1, UserId = ownerUserId });
+            mockService.Setup(x => x.GetMoviesOfCollection(It.IsAny<int>())).
+                ReturnsAsync(new List<Movie>());
 
 
             var controller = new MovieCollectionController(mapper, mockService.Object);
@@ -86,6 +88,14 @@ namespace MovieCollectionAPI.Tests.MovieCollectionControllerTests
             var controller = getController(authenticatedUserId: 2, ownerUserId: 1);
             var actionResult = controller.AddToMovieCollection(1, new MovieDto());
             Assert.NotNull(actionResult.Result as Microsoft.AspNetCore.Mvc.UnauthorizedResult);
+        }
+
+        [Fact]
+        public void Get_Associated_Movies_Of_A_Collection_Not_Null()
+        {
+            var controller = getController(authenticatedUserId: 0, ownerUserId: 1);
+            var actionResult = controller.GetMoviesOfCollection(1);
+            Assert.NotNull(actionResult.Result);
         }
 
     }
