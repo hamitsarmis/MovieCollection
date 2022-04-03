@@ -23,10 +23,20 @@ cd MovieCollectionAPI/ <br/>
 docker-compose build <br/>
 docker-compose up
 
-#### Unit tests can be found in MovieCollectionAPI.Tests project. Here are the rules that are tested:
+#### User Interface is generated with Angular 13.
+
+Bootstrap used for creating components easily.
+In the view of collections:<br/>
+- All collections are listed
+- User clicks on a collection and its movies and names are listed.
+- If user logged in and the collection is theirs, they can see the add / remove buttons to add or remove movies from collections.<br/>
+Also, they can change the name of collections or delete them.
+- There is also a "new collection" button to create new collections
+
+#### Unit tests can be found in MovieCollectionAPI.Tests project. Here is a rule that is tested:
 
 Every user should be able to see collections of other people, but to be able to change only their own collection.
 
 #### Additionally:
 Besides having an API endpoint, swagger UI provided with Security Requirement and Security Definition for people who don’t know how to use Postman. <br/>
-Managing movies (Create Update Delete) operations are only allowed for admin role.
+Managing movies (Create Update Delete) operations are only allowed for admin role. But, only backend codes are written because of time limitation.
