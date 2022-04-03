@@ -1,0 +1,10 @@
+<input [(ngModel)]="searchText" placeholder="search movies by name">
+<br>
+<div style="display: flex">
+  <app-movie-detail *ngFor="let movie of movies"
+                    [Description]="movie.description"
+                    [ImagePath]="movie.imagePath"
+                    [ImdbScore]="movie.imdbScore"
+                    [Name]="movie.name">
+  </app-movie-detail>
+</div>

@@ -1,0 +1,61 @@
+<p *ngIf="noDataFound">No Collection found</p>
+<div class="row">
+  <div class="col-xs-12">
+    <button *ngIf="isUserLoggedIn | async" class="btn btn-success"
+            (click)="createNewCollection()">New Collection</button>
+  </div>
+</div>
+<hr>
+<div style="display: flex">
+  <ul class="list-group" style="width: 50%">
+    <li class="list-group-item"
+        [ngClass]="SelectedCollection === movieCollection ? 'active' : ''"
+        (click)="SelectedCollection = movieCollection"
+        *ngFor="let movieCollection of movieCollections">
+      <app-movie-collection [movieCollection]="movieCollection">
+      </app-movie-collection>
+    </li>
+  </ul>
+  <div style="width: 50%;margin-left: 10px" *ngIf="SelectedCollection !== undefined">
+      <label class="form-label">Name</label>
+      <input style="margin-left: 10px" class="form-control"
+             readonly
+             *ngIf="loggedInUserId != SelectedCollection.userId; else editableInput"
+             [ngModel]="SelectedCollection.name">
+      <ng-template #editableInput>
+        <input style="margin-left: 10px" class="form-control"
+               [(ngModel)]="SelectedCollection.name">
+      </ng-template>
+      <div *ngIf="loggedInUserId == SelectedCollection.userId" style="margin-left: 10px;margin-top: 5px">
+        <button *ngIf="SelectedCollection.id !== 0; else createButton"
+                class="btn btn-success"
+                (click)="updateCollection(SelectedCollection)">Update</button>
+        <ng-template #createButton>
+          <button class="btn btn-success"
+                  (click)="insertCollection(SelectedCollection)">Create</button>
+        </ng-template>
+        <button class="btn btn-danger"
+                (click)="deleteCollection(SelectedCollection)">Delete</button>
+      </div>
+      <br>
+      <label class="form-label">Movies:</label>
+        <ul class="list-group" *ngIf="loggedInUserId != SelectedCollection.userId;else allMoviesTemplate">
+          <li class="list-group-item" *ngFor="let movie of selectedMovies">{{movie.name}}</li>
+        </ul>
+        <ng-template #allMoviesTemplate>
+          <ul class="list-group">
+            <li class="list-group-item"
+                *ngFor="let movie of allMovies">{{movie.name}}
+              <div *ngIf="loggedInUserId == SelectedCollection.userId && SelectedCollection.id !== 0"
+                   style="display: inline-flex">
+                <button *ngIf="isItemSelected(movie);else addTemplate" class="btn  btn-danger"
+                        (click)="removeMovieFromCollection(movie)">Delete</button>
+                <ng-template #addTemplate>
+                  <button class="btn  btn-success" (click)="addMovieToCollection(movie)">Add</button>
+                </ng-template>
+              </div>
+            </li>
+          </ul>
+        </ng-template>
+  </div>
+</div>
