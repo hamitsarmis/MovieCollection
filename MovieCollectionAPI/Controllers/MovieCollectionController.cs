@@ -85,15 +85,23 @@ namespace MovieCollectionAPI.Controllers
 
 
         [HttpPost("removefrom-moviecollection")]
-        public async Task RemoveFromMovieCollection([FromQuery] int collectionId, [FromBody] MovieDto movieDto)
+        public async Task<ActionResult> RemoveFromMovieCollection([FromQuery] int collectionId, [FromBody] MovieDto movieDto)
         {
+            var data = await _movieCollectionService.GetMovieCollection(new MovieCollection { Id = collectionId });
+            if (data?.UserId != User.GetUserId())
+                return Unauthorized();
             await _movieCollectionService.RemoveFromMovieCollection(new MovieCollection { Id = collectionId }, _mapper.Map<Movie>(movieDto));
+            return Ok();
         }
 
         [HttpPost("addto-moviecollection")]
-        public async Task AddToMovieCollection([FromQuery] int collectionId, [FromBody] MovieDto movieDto)
+        public async Task<ActionResult> AddToMovieCollection([FromQuery] int collectionId, [FromBody] MovieDto movieDto)
         {
+            var data = await _movieCollectionService.GetMovieCollection(new MovieCollection { Id = collectionId });
+            if (data?.UserId != User.GetUserId())
+                return Unauthorized();
             await _movieCollectionService.AddToMovieCollection(new MovieCollection { Id = collectionId }, _mapper.Map<Movie>(movieDto));
+            return Ok();
         }
 
     }
