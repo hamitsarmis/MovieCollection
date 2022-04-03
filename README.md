@@ -16,7 +16,7 @@ By default, this app uses mssqllocaldb, if you want to use some other database y
 #### Running the backend with docker:
 
 You will have to change connectionstring in MovieCollectionAPI/appsettings.json to 
-**Server=db;Database=MovieCollectionAPI;User=sa;Password=@someThingComplicated1234;**
+**Server=db;Database=MovieCollectionAPI;User=sa;Password=@someThingComplicated1234;** <br/>
 before running the compose commands below:
 
 cd MovieCollectionAPI/ <br/>
@@ -29,10 +29,11 @@ docker-compose up
 Bootstrap used for creating components easily.
 In the view of collections:<br/>
 - All collections are listed
-- User clicks on a collection and its movies and names are listed.
+- User clicks on a collection and its movies and name are listed.
 - If user logged in and the collection is theirs, they can see the add / remove buttons to add or remove movies from collections.<br/>
 Also, they can change the name of collections or delete them.
 - There is also a "new collection" button to create new collections
+- JWT used for authentication.
 
 #### Unit tests can be found in MovieCollectionAPI.Tests project. Here is a rule that is tested:
 
