@@ -21,6 +21,6 @@ docker-compose up
 
 You will have to change connectionstring in MovieCollectionAPI/appsettings.json to 
 
-**Server=db;Database=master;User=sa;Password=@someThingComplicated1234;**
+**Server=db;Database=MovieCollectionAPI;User=sa;Password=@someThingComplicated1234;**
 
 before running the compose commands.
