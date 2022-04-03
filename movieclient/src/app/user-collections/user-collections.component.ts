@@ -1,4 +1,4 @@
-import {Component, OnInit, ChangeDetectorRef} from '@angular/core';
+import {Component, OnInit, Input} from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpHeaders} from "@angular/common/http";
 import {Movie} from "../movie.model";
 import {MovieCollection} from "../moviecollection.model";
@@ -17,12 +17,31 @@ import Utils from "../utils";
 })
 export class UserCollectionsComponent implements OnInit {
 
+  private _searchText = '';
   movieCollections: MovieCollection[] = [];
+  initialData: MovieCollection[] = [];
   selectedMovies: Movie[] = [];
   allMovies: Movie[] = [];
   noDataFound: boolean = false;
   isUserLoggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   loggedInUserId: string = '';
+
+  get searchText(){
+    return this._searchText;
+  }
+
+  @Input()
+  set searchText(searchText: string){
+    this._searchText = searchText;
+    if(this._searchText.length == 0)
+      this.movieCollections = this.initialData;
+    else {
+      this.movieCollections = this.initialData.filter(m=> m.name.toLowerCase().includes(this._searchText.toLowerCase()));
+      if(this.movieCollections.filter(m => m.id == this.SelectedCollection?.id).length == 0) {
+        this.SelectedCollection = undefined;
+      }
+    }
+  }
   private _selectedCollection: MovieCollection | undefined;
 
   get SelectedCollection(): MovieCollection | undefined {
@@ -37,7 +56,6 @@ export class UserCollectionsComponent implements OnInit {
         environment.baseUrl +'MovieCollection/get-moviesofcollection?collectionId='+ value?.id, null).
       subscribe((data) =>{
         this.selectedMovies = data;
-        this.cdRef.detectChanges();
       }, (error => this.handleError(error)), ()=>{ this.spinner.hide(); });
     } else {
       this.spinner.hide();
@@ -45,8 +63,8 @@ export class UserCollectionsComponent implements OnInit {
   }
 
   constructor(private httpClient: HttpClient, private toastr: ToastrService,
-              private movieService: MovieService, private cdRef: ChangeDetectorRef,
-              private authService: AuthService, private spinner: NgxSpinnerService) {  }
+              private movieService: MovieService, private authService: AuthService,
+              private spinner: NgxSpinnerService) {  }
 
   private getUrlForCollections() : string{
     if(this.isUserLoggedIn.getValue() === true)
@@ -61,7 +79,7 @@ export class UserCollectionsComponent implements OnInit {
       this.getUrlForCollections()
       , null).
     subscribe((data) => {
-      this.movieCollections = data;
+      this.initialData = this.movieCollections = data;
       this.noDataFound = this.movieCollections.length == 0;
     });
     this.movieService.getMovies().subscribe((data) => this.allMovies = data);
@@ -69,6 +87,8 @@ export class UserCollectionsComponent implements OnInit {
       this.isUserLoggedIn.next(data === true);
       if(data === true)
         this.loggedInUserId = this.authService.getUser().userId.toString();
+      else
+        this.loggedInUserId = '';
     });
   }
 
@@ -81,6 +101,7 @@ export class UserCollectionsComponent implements OnInit {
       userName: user.userName
     };
     this.movieCollections.push(movieCollection);
+    this.initialData = this.movieCollections;
     this.SelectedCollection = movieCollection;
   }
 
@@ -95,7 +116,6 @@ export class UserCollectionsComponent implements OnInit {
     subscribe((data) => {
       let index = this.selectedMovies.findIndex(m => m.id === movie.id);
       this.selectedMovies.splice(index, 1);
-      this.cdRef.detectChanges();
     }, (error => this.handleError(error)));
   }
   addMovieToCollection(movie: Movie){
@@ -104,7 +124,6 @@ export class UserCollectionsComponent implements OnInit {
       this._selectedCollection?.id, movie).
     subscribe((data) => {
       this.selectedMovies.push(movie);
-      this.cdRef.detectChanges();
     }, (error => this.handleError(error)));
   }
 
@@ -119,7 +138,6 @@ export class UserCollectionsComponent implements OnInit {
       environment.baseUrl +'MovieCollection/create-moviecollection', selectedCollection)
       .subscribe((data) =>{
         selectedCollection.id = data.id;
-        this.cdRef.detectChanges();
       }, (error) => this.handleError(error));
   }
 
@@ -142,6 +160,7 @@ export class UserCollectionsComponent implements OnInit {
   collectionDeleted(selectedCollection: MovieCollection){
     let index = this.movieCollections.findIndex(m => m.id === selectedCollection.id);
     this.movieCollections.splice(index, 1);
+    this.initialData = this.movieCollections;
     this.SelectedCollection = undefined;
   }
 }
