@@ -19,7 +19,7 @@ cd MovieCollectionAPI/ <br/>
 docker-compose build <br/>
 docker-compose up
 
-You will have to change connectionstring in MovieCollectionAPI/appsettings.Development.json to 
+You will have to change connectionstring in MovieCollectionAPI/appsettings.json to 
 
 **Server=db;Database=master;User=sa;Password=@someThingComplicated1234;**
 
