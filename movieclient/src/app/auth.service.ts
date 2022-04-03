@@ -23,26 +23,26 @@ export class AuthService {
   }
 
   logOff(): void {
-    window.sessionStorage.clear();
+    window.localStorage.clear();
     this.isUserLoggedIn.next(false);
   }
 
   public getToken(): string {
-    let result = window.sessionStorage.getItem(TOKEN_KEY);
+    let result = window.localStorage.getItem(TOKEN_KEY);
     if (result === null || result == undefined)
       return '';
     return result;
   }
 
   public saveLogin(user: any, token:string): void {
-    window.sessionStorage.removeItem(TOKEN_KEY);
-    window.sessionStorage.setItem(TOKEN_KEY, token);
-    window.sessionStorage.removeItem(USER_KEY);
-    window.sessionStorage.setItem(USER_KEY, JSON.stringify(user));
+    window.localStorage.removeItem(TOKEN_KEY);
+    window.localStorage.setItem(TOKEN_KEY, token);
+    window.localStorage.removeItem(USER_KEY);
+    window.localStorage.setItem(USER_KEY, JSON.stringify(user));
     this.isUserLoggedIn.next(true);
   }
   public getUser(): any {
-    const user = window.sessionStorage.getItem(USER_KEY);
+    const user = window.localStorage.getItem(USER_KEY);
     if (user) {
       return JSON.parse(user);
     }

@@ -4,7 +4,7 @@
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
         <a *ngIf="!isUserLoggedIn" class="nav-item nav-link right" routerLink="/login">Login</a>
-        <p *ngIf="isUserLoggedIn" class="nav-item nav-link">Welcome {{loggedInUserName}} !</p>
+        <p *ngIf="isUserLoggedIn" style="margin: auto" class="nav-item nav-link">Welcome {{loggedInUserName}} !</p>
         <a *ngIf="isUserLoggedIn" class="nav-item nav-link" routerLink="/" (click)="logoutUser()">Logout</a>
       </div>
     </div>
