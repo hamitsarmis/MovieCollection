@@ -1,4 +1,4 @@
-## Running the sample
+## Running the app
 
 #### To run the client app you can execute in terminal:
 
@@ -23,6 +23,7 @@ cd MovieCollectionAPI/ <br/>
 docker-compose build <br/>
 docker-compose up
 
+## Other Details
 #### User Interface is generated with Angular 13.
 
 Bootstrap used for creating components easily.
