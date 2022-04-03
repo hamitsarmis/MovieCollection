@@ -20,5 +20,7 @@ namespace MovieCollectionAPI.Interfaces
 
         Task<List<Movie>> GetMoviesOfCollection(int collectionId);
 
+        List<MovieCollection> GetCollections();
+
     }
 }

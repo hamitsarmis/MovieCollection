@@ -48,7 +48,9 @@ namespace MovieCollectionAPI.Services
 
         public async Task UpdateMovieCollection(MovieCollection movie)
         {
-            //await _dataContext.(movie);
+            var mv = await _dataContext.MovieCollections.FindAsync(movie.Id);
+            _dataContext.Entry(mv).CurrentValues.SetValues(movie);
+            await _dataContext.SaveChangesAsync();
         }
 
         public async Task<List<MovieCollection>> GetMovieCollectionsOfUser(int userid)
@@ -61,6 +63,11 @@ namespace MovieCollectionAPI.Services
             var itemsToSelect = _dataContext.CollectionMovies.Where(m => m.MovieCollectionId == collectionId).
                 Select(m => m.MovieId).ToList();
             return _dataContext.Movies.Where(m => itemsToSelect.Contains(m.Id)).ToList();
+        }
+
+        public List<MovieCollection> GetCollections()
+        {
+            return _dataContext.MovieCollections.ToList();
         }
     }
 }

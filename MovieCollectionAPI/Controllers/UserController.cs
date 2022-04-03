@@ -36,12 +36,12 @@ namespace MovieCollectionAPI.Controllers
             var user = await _userManager.Users
                 .SingleOrDefaultAsync(x => x.UserName == loginRequest.UserName);
 
-            if (user == null) return Unauthorized("Invalid username");
+            if (user == null) return Unauthorized("Bad username or password");
 
             var result = await _signInManager
                 .CheckPasswordSignInAsync(user, loginRequest.Password, false);
 
-            if (!result.Succeeded) return Unauthorized();
+            if (!result.Succeeded) return Unauthorized("Bad username or password");
 
             return new LoginResponse
             {

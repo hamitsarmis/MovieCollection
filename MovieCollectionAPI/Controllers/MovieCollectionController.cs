@@ -75,6 +75,14 @@ namespace MovieCollectionAPI.Controllers
             return _mapper.Map<List<MovieDto>>(result);
         }
 
+        [HttpPost("get-collections")]
+        [AllowAnonymous]
+        public List<MovieCollectionDto> GetCollections()
+        {
+            var result = _movieCollectionService.GetCollections();
+            return _mapper.Map<List<MovieCollectionDto>>(result);
+        }
+
 
         [HttpPost("removefrom-moviecollection")]
         public async Task RemoveFromMovieCollection([FromQuery] int collectionId, [FromBody] MovieDto movieDto)
