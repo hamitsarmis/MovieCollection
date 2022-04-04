@@ -27,7 +27,7 @@
              [ngModel]="SelectedCollection.name">
       <ng-template #editableInput>
         <input style="margin-left: 10px" class="form-control"
-               [(ngModel)]="SelectedCollection.name">
+               [formControl]="nameControl">
       </ng-template>
       <div *ngIf="loggedInUserId == SelectedCollection.userId" style="margin-left: 10px;margin-top: 5px">
         <button *ngIf="SelectedCollection.id !== 0; else createButton"

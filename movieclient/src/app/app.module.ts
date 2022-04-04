@@ -7,7 +7,7 @@ import { MovieDetailComponent } from './movie-detail/movie-detail.component';
 import { MovieListComponent } from './movie-list/movie-list.component';
 import { UserCollectionsComponent } from './user-collections/user-collections.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
-import { FormsModule } from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { MovieCollectionComponent } from './movie-collection/movie-collection.component';
 import { LoginComponent } from './login/login.component';
 import { ToastrModule } from 'ngx-toastr';
@@ -31,6 +31,7 @@ import {NgxSpinnerModule} from "ngx-spinner";
     HttpClientModule,
     BrowserAnimationsModule,
     NgxSpinnerModule,
+    ReactiveFormsModule,
     FormsModule,
     ToastrModule.forRoot()
   ],

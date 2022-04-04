@@ -9,6 +9,7 @@ import {BehaviorSubject} from "rxjs";
 import {environment} from "../environment";
 import {NgxSpinnerService} from "ngx-spinner";
 import Utils from "../utils";
+import {FormControl} from "@angular/forms";
 
 @Component({
   selector: 'app-user-collections',
@@ -25,6 +26,7 @@ export class UserCollectionsComponent implements OnInit {
   noDataFound: boolean = false;
   isUserLoggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   loggedInUserId: string = '';
+  nameControl = new FormControl('');
 
   get searchText(){
     return this._searchText;
@@ -52,6 +54,7 @@ export class UserCollectionsComponent implements OnInit {
     this.spinner.show();
     this._selectedCollection = value;
     if (this._selectedCollection != null) {
+      this.nameControl.setValue(this._selectedCollection.name);
       this.httpClient.post<Movie[]>(
         environment.baseUrl +'MovieCollection/get-moviesofcollection?collectionId='+ value?.id, null).
       subscribe((data) =>{
@@ -59,6 +62,7 @@ export class UserCollectionsComponent implements OnInit {
       }, (error => this.handleError(error)), ()=>{ this.spinner.hide(); });
     } else {
       this.spinner.hide();
+      this.nameControl.setValue('');
     }
   }
 
@@ -128,9 +132,17 @@ export class UserCollectionsComponent implements OnInit {
   }
 
   updateCollection(SelectedCollection: MovieCollection) {
+    let tempName = SelectedCollection.name;
+    SelectedCollection.name = this.nameControl.value;
     this.httpClient.post(
       environment.baseUrl +'MovieCollection/update-moviecollection', SelectedCollection)
-      .subscribe((data) =>{}, (error) => this.handleError(error));
+      .subscribe((data) =>{
+        if(this._selectedCollection !== undefined)
+          this._selectedCollection.name = this.nameControl.value;
+      }, (error) => {
+        SelectedCollection.name = tempName;
+        this.handleError(error);
+      });
   }
 
   insertCollection(selectedCollection: MovieCollection) {
