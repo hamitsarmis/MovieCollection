@@ -15,9 +15,7 @@ By default, this app uses mssqllocaldb, if you want to use some other database y
 
 #### Running the backend with docker:
 
-You will have to change connectionstring in MovieCollectionAPI/appsettings.json to 
-**Server=db;Database=MovieCollectionAPI;User=sa;Password=@someThingComplicated1234;** <br/>
-before running the compose commands below:
+Simply run the commands below: <br/>
 
 cd MovieCollectionAPI/ <br/>
 docker-compose build <br/>
