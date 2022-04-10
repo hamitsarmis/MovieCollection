@@ -5,7 +5,6 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>baa6688f-e04e-4f8b-b286-091eb2956ecc</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-	<DockerfileRunArguments>-p "5200:443" -p "5050:80"</DockerfileRunArguments>
   </PropertyGroup>
 
   <ItemGroup>

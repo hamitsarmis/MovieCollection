@@ -58,7 +58,6 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IMovieService, MovieService>();
 builder.Services.AddScoped<IMovieCollectionService, MovieCollectionService>();
 
-builder.Configuration.AddConfigurationFile();
 builder.Logging.AddConsole();
 
 builder.Services.AddDbContext<DataContext>(options =>
@@ -99,7 +98,8 @@ app.Logger.LogInformation("MovieCollectionAPI App created...");
 app.UseMiddleware<ExceptionMiddleware>();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment() || 
+    app.Environment.EnvironmentName == "Docker")
 {
     app.UseSwagger();
     app.UseSwaggerUI();
