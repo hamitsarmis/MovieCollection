@@ -38,7 +38,7 @@ export class UserCollectionsComponent implements OnInit {
     if(this._searchText.length == 0)
       this.movieCollections = this.initialData;
     else {
-      this.movieCollections = this.initialData.filter(m=> m.name.toLowerCase().includes(this._searchText.toLowerCase()));
+      this.movieCollections = this.initialData.filter(m=> m.name!.toLowerCase().includes(this._searchText.toLowerCase()));
       if(this.movieCollections.filter(m => m.id == this.SelectedCollection?.id).length == 0) {
         this.SelectedCollection = undefined;
       }
