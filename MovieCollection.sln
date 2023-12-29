@@ -1,11 +1,11 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieCollectionAPI", "MovieCollectionAPI\MovieCollectionAPI.csproj", "{F8594F9B-BDA8-485E-992C-C9830B1C845B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieCollectionAPI.Tests", "MovieCollectionAPI.Tests\MovieCollectionAPI.Tests.csproj", "{B2673518-8D84-44BF-B700-4EF1982D16BF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieCollectionAPI.Tests", "MovieCollectionAPI.Tests\MovieCollectionAPI.Tests.csproj", "{B2673518-8D84-44BF-B700-4EF1982D16BF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
